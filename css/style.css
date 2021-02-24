@@ -1101,10 +1101,16 @@
 /*--------------------------------------------------------------------- layout new css ---------------------------------------------------------------------*/
  .header-top {
     background:url(../images/banner2.jpg);
-     background-size: 100% 100%;
+     
+}
+.header-top-pricing {
+    background:url(../images/banner3.jpg);
+}
+.header-top-pricing, .header-top {
+    background-size: 100% 100%;
      background-repeat: no-repeat;
      padding-bottom: 90px;
-}
+ }
  .header {
      position: absolute;
      z-index: 999;
