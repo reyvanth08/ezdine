@@ -1861,3 +1861,15 @@
      top: inherit;
      bottom: 10px;
 }
+.send {
+    font-size: 16px;
+    border: #000 solid 1px;
+    background-color: #000;
+    color: #fff;
+    padding: 10px 60px;
+}
+.send:hover {
+    background-color: #002aeb;
+    border: #002aeb solid 1px;
+    color: #fff;
+}
