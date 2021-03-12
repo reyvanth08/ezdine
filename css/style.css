@@ -1,7 +1,8 @@
 /*--------------------------------------------------------------------- File Name: style.css ---------------------------------------------------------------------*/
 /*--------------------------------------------------------------------- import Fonts ---------------------------------------------------------------------*/
  @import url('https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,600,700');
- @import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+ @import url('https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+ /* @import url('https://fonts.googleapis.com/css?family=Raleway'); */
 /*****---------------------------------------- 1) font-family: 'Rajdhani', sans-serif;
  2) font-family: 'Poppins', sans-serif;
  ----------------------------------------*****/
@@ -27,7 +28,7 @@
  body {
      color: #666666;
      font-size: 14px;
-     font-family: 'poppins', sans-serif;
+     font-family: 'Raleway', sans-serif;
      line-height: 1.80857;
      font-weight: normal;
      overflow-x: hidden;
@@ -1132,7 +1133,7 @@
      padding-top: 50px;
      font-size: 75px;
      line-height: 94px;
-    \padding-bottom: 25px;
+    padding-bottom: 25px;
 }
  .b_bold {
     font-size: 90px;
@@ -1486,7 +1487,7 @@
      line-height: 46px;
      border-bottom: #fff solid 1px;
      font-size: 40px;
-     width: 367px;
+     
      margin: 0 auto;
      margin-bottom: 60px;
 }
@@ -1547,7 +1548,7 @@
      line-height: 46px;
      border-bottom: #000 solid 1px;
      font-size: 40px;
-     width: 367px;
+     
      margin: 0 auto;
      text-transform: uppercase;
 }
@@ -1654,7 +1655,7 @@
 }
  ul.loca li {
     display: inline-block;
-     padding-right: 23%;
+     padding-right: 15%;
 }
  ul.loca li:last-child {
     padding-right: 0;
