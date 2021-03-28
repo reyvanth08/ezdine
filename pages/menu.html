@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+
+    <meta name='viewport' content="width=device-width, initial-scale=1.0"/>
+    <title>EzDine | Menu </title>
+    <link rel="stylesheet" href="../css/menu.css"/>
+</head>
+<body>
+    <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-database.js"></script>
+<script>
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    var firebaseConfig = {
+        apiKey: "AIzaSyD7mse7Xk7sSr7S2YLFSLLPZhDGXY0Sggc",
+        authDomain: "ezdine-38f1f.firebaseapp.com",
+        databaseURL: "https://ezdine-38f1f-default-rtdb.firebaseio.com",
+        projectId: "ezdine-38f1f",
+        storageBucket: "ezdine-38f1f.appspot.com",
+        messagingSenderId: "368406201206",
+        appId: "1:368406201206:web:2153ef45b588f5c1c33057",
+        measurementId: "G-MJNBWWPVXY"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    </script>
+
+    <p id="pp">
+
+    </p>
+
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const uid = urlParams.get("uid");
+        var p = document.getElementById("pp");
+        p.innerHTML = "Loading....."
+        var categoryReference  = firebase.database().ref("restaurants/"+uid+"/category");
+        categoryReference.once('value', function(snapshot){
+            if(snapshot.exists()){
+                var ids = [];
+                var names= [];
+                let snap = snapshot.val();
+                for (i in snap){
+                        
+                        for (n in snap[i]){
+                            if(n=="categoryName"){
+                                names.push(snap[i][n])
+                            }
+                            if(n=="id"){
+                                ids.push(snap[i][n])
+                            }
+                            
+                
+                    
+                        }
+                }
+                var itemReference = firebase.database().ref("restaurants/"+uid+"/items");
+                itemReference.once('value',function(snapshot){
+                    if(snapshot.exists()){
+                        var itemList = "<ul id='upperul'>";
+                        var highrow = "";
+                        let snap1 = snapshot.val();
+                        var subItemList, subData;
+                        var i;
+                        for(i = 0; i<ids.length;i++){
+                            var lowul = "<ul id='lowerul'>";
+                               for (j in snap1[ids[i]]){
+                                    var lowrow = "<li id='lowerlistrow'>";
+                                    for(n in snap1[ids[i]][j]){
+                                       if(n=="itemName"){
+                                           lowrow += snap1[ids[i]][j][n];
+                                       }
+                                       if(n=="itemPrice"){
+                                           lowrow = lowrow + " "+ snap1[ids[i]][j][n]+"</li>";
+                                           lowul += lowrow;
+                                       }
+                                    }
+                               }
+                               lowul += "</ul>";
+                               highrow += "<li id='higherlistrow'><h3 id='categoryName'>"+names[i]+"</h3>"+lowul+"</li>";
+                               console.log(highrow);
+                               lowul = "<ul>";
+                    
+
+                        }
+                        itemList += highrow +"</ul>";
+                        p.innerHTML = itemList;
+                    }
+                });
+            }else{
+                p.innerHTML = "<h2 id='lowerlistrow'>Something Went Wrong</h2>"
+            }
+        });
+    </script>
+</body>
