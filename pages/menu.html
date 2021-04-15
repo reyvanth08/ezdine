@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <head>
+    <meta name="theme-color" content="#03B00" />
 
-    <meta name='viewport' content="width=device-width, initial-scale=1.0"/>
-    <title>EzDine | Menu </title>
-    <link rel="stylesheet" href="../css/menu.css"/>
+    <!-- <meta name='viewport' content="width=device-width, initial-scale=1.0"/> -->
+    <title>Edzine | Menu </title>
+    <link rel="stylesheet" href="menu.css"/>
 </head>
-<body>
+<body id="body">
     <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -28,17 +29,98 @@
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
     </script>
-
+    <div id="loader">
+        <div class="roller-bg">
+            <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+        <div 
+        style="background-color: #ffffffbb;
+            margin-top: 20px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 20px 0px;
+            border-radius: 8px;
+            font-family: Arial, Helvetica, sans-serif;">
+            <h3>"Wait, do you smell something cooking?"</h3>
+        </div>
+    </div>
+    <div id="header">
+        <div>
+        </div>
+        <div>
+            <h1 id="restName"></h1>
+        </div>
+     <div>
+        
+     </div>
+    </div>
+    <h1 id="menu">Menu</h1>
     <p id="pp">
-
     </p>
+    <div>
+        
+    </div>
+    <div id="footer">
+        <div style="padding: 0px 20px 0px;">
+        <div class="our_rest">
+            <p>
+                Our food is cooked fresh, kindly allow us few minutes to serve
+                from time to order. Please mention your food preferences if
+                any, at the time of placing the order.
+            </p>
+      
+        </div>
+        <div>
+            <p class="visit_home">
+                We help Restaurants/Cafes go online with a digital Dine-in 
+                experience. Want to know more about us? <br>
+                <a href="https://ezdine.in"
+                    style="text-decoration: none;"
+                    >
+                    <button style="
+                        all: unset;
+                        background-color: #ff0000;
+                        color: white;
+                        padding: 10px ;
+                        margin-top: 10px;
+                        font-size: 13px;
+                        border-radius: 3px;
+                        ">
+                         Check out our website here!
+                    </button>
+                </a>
+            </p>
+        </div>
+    </div>
+        <hr style="
+            border: none;
+            margin-top: 20px;
+            height: 0.5px;
+            background-color: rgb(128, 128, 128);
+            " >
+        <div class="foot_info">
+            <h4>&copy; 2021 All Rights Reserved. EzDine</h4>
+            <h4>Crispy Bells Services</h4>
+        </div>
+    </div>
 
     <script>
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const uid = urlParams.get("uid");
+        var body = document.getElementById("body");
+        var header = document.getElementById("header");
+        var loader = document.getElementById("loader");
         var p = document.getElementById("pp");
-        p.innerHTML = "Loading....."
+        var h = document.getElementById("restName");
+        var nameReference = firebase.database().ref("users/"+uid+"/restInfo/restName");
+        nameReference.once('value',function(snapshot){
+            if(snapshot.exists()){
+                let snap = snapshot.val();  
+                h.innerText = snap;
+            }
+           
+        })
         var categoryReference  = firebase.database().ref("restaurants/"+uid+"/category");
         categoryReference.once('value', function(snapshot){
             if(snapshot.exists()){
@@ -71,30 +153,50 @@
                             var lowul = "<ul id='lowerul'>";
                                for (j in snap1[ids[i]]){
                                     var lowrow = "<li id='lowerlistrow'>";
+                                    var itemName, itemDescri, itemPrice;
                                     for(n in snap1[ids[i]][j]){
+                                        if(n=="itemDescri"){
+                                            if(snap1[ids[i]][j][n]=="0"){
+                                                itemDescri = "<span class='itemDescri'>"+"</span>";
+
+                                            }else{
+                                                itemDescri = "<span class='itemDescri'>"+snap1[ids[i]][j][n]+"</span>";
+
+                                            }
+                                        }
                                        if(n=="itemName"){
-                                           lowrow += snap1[ids[i]][j][n];
+                                           itemName = lowrow + "<span class='itemName'>"+ snap1[ids[i]][j][n]+"</span>";
                                        }
                                        if(n=="itemPrice"){
-                                           lowrow = lowrow + " "+ snap1[ids[i]][j][n]+"</li>";
+                                           lowrow = itemName + " "+itemDescri+" <span class='itemPrice'>Rs. "+ snap1[ids[i]][j][n]+"<span></li>";
                                            lowul += lowrow;
                                        }
                                     }
                                }
                                lowul += "</ul>";
-                               highrow += "<li id='higherlistrow'><h3 id='categoryName'>"+names[i]+"</h3>"+lowul+"</li>";
-                               console.log(highrow);
+                               highrow += "<li id='higherlistrow'><h3 class='categoryName'>"+names[i]+"</h3>"+lowul+"</li>";
                                lowul = "<ul>";
                     
 
                         }
                         itemList += highrow +"</ul>";
                         p.innerHTML = itemList;
+                      
                     }
                 });
             }else{
-                p.innerHTML = "<h2 id='lowerlistrow'>Something Went Wrong</h2>"
+                p.innerHTML = "<div class='error'>"+
+                    "<h3>Some thing went wrong </h3>"+
+                    "<a href=\"https://ezdine.in\">"+
+                        "<h4 class=\"back_to_site_btn\">Back to our site</h4>"+
+                    "<a/>"+
+                    "</div>";
+                header.style.display = "none";
+                body.style.backgroundImage = "url('https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')"
+    
             }
+            loader.style.display = "none";
+            loader.style.backgroundColor = "red";
         });
     </script>
 </body>
